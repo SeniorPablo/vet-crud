@@ -8,7 +8,7 @@ function Sidebar() {
                 <div className="row text-center">
                     <div className="col-xs-12 col-md-12 sidebar-col-container">
                         <a href="#" className="sidebar-link">Inicio</a>
-                        <a href="#" className="sidebar-link">Registrar paciente</a>
+                        <a href="#" className="sidebar-link">Mascotas</a>
                     </div>
                 </div>
             </div>

@@ -1,3 +1,8 @@
 .sidebar-grid {
   height: calc(100vh - 92px);
 }
+
+.content-grid {
+  height: calc(100vh - 92px);
+  overflow-y: auto;
+}
