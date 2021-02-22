@@ -1,0 +1,20 @@
+.sidebar-container {
+  background-color: #f7f7f7;
+  height: 100%;
+}
+
+.sidebar-col-container {
+  margin-top: 60px;
+}
+
+.sidebar-link {
+  display: block;
+  font-size: 30px;
+  color: #6d6d6d;
+}
+
+.sidebar-link:hover,
+.sidebar-link:focus {
+  color: #000000;
+  text-decoration: none;
+}

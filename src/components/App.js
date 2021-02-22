@@ -1,8 +1,13 @@
 import { Fragment } from 'react'
+import Navbar from './Navbar'
+import Content from './Content'
+import '../styles/generic.css'
+
 function App() {
   return (
     <Fragment>
-      <h1>Hola Mundo!</h1>
+      <Navbar />
+      <Content />
     </Fragment>
   )
 }
