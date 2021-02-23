@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from 'react'
-import { getCollection } from '../actions/generic'
+import { getPets, addPet } from '../actions/generic'
 import { size } from 'lodash'
 import Footer from './Footer'
 import $ from 'jquery'
@@ -10,10 +10,10 @@ function MainForm() {
     $('[data-toggle="tooltip"]').tooltip()
 
     const [pets, setPets] = useState([])
-    const [addModal, setAddModal] = useState(false);
     const [updateModal, setUpdateModal] = useState(false)
     const [deleteModal, setDeleteModal] = useState(false)
     const [petSelected, setPetSelected] = useState({
+        id: '',
         name: '',
         petType: '',
         petBreed: '',
@@ -24,12 +24,45 @@ function MainForm() {
         ownerEmail: ''
     })
 
+    useEffect(() => {
+        (async () => {
+            const result = await getPets("patients")
+            if (result.statusResponse) {
+                setPets(result.data)
+            }
+        })()
+    }, [])
+
     const handleChange = e => {
         const { name, value } = e.target;
         setPetSelected({
             ...petSelected,
             [name]: value
         })
+    }
+
+    const addRequest = async () => {
+        delete petSelected.id
+        const result = await addPet("patients", petSelected)
+
+        if (result.statusResponse) {
+
+            const newPet = {
+                id: result.data.id,
+                name: petSelected.name,
+                petType: petSelected.petType,
+                petBreed: petSelected.petBreed,
+                dateBirth: petSelected.dateBirth,
+                ownerName: petSelected.ownerName,
+                ownerPhone: petSelected.ownerPhone,
+                ownerAddress: petSelected.ownerAddress,
+                ownerEmail: petSelected.ownerEmail
+            }
+
+            setPets([...pets, newPet])
+            toggleAddModal()
+            cleanFields()
+        }
     }
 
     const toggleAddModal = () => {
@@ -49,14 +82,9 @@ function MainForm() {
         (caseType === "Update") ? toggleUpdateModal() : toggleDeleteModal();
     }
 
-    useEffect(() => {
-        (async () => {
-            const result = await getCollection("patients")
-            if (result.statusResponse) {
-                setPets(result.data)
-            }
-        })()
-    }, [])
+    const cleanFields = () => {
+        $('[type="text"]').val('')
+    }
 
     return (
         <Fragment>
@@ -65,7 +93,7 @@ function MainForm() {
             </div>
             <ul className="nav justify-content-end">
                 <li className="nav-item">
-                    <a className="btn-add pr-5" href="#" onClick={() => toggleAddModal()} tabindex="-1" aria-disabled="true" data-toggle="tooltip" data-placement="left" title="Añade una mascota">
+                    <a className="btn-add pr-5" href="#" onClick={() => toggleAddModal()} tabIndex="-1" aria-disabled="true" data-toggle="tooltip" data-placement="left" title="Añade una mascota">
                         <i className="fa fa-plus-circle add-icon"></i>
                     </a>
                 </li>
@@ -118,56 +146,56 @@ function MainForm() {
             }
 
             {/* Add Modal */}
-            <div className="modal fade" id="add_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal fade" id="add_modal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLabel">Agrega una mascota</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div className="modal-body">
                             <div className="form-group">
                                 <label for="name">Nombre</label>
-                                <input type="text" className="form-control" name="name" placeholder="Nombre de la mascota" />
+                                <input type="text" className="form-control" name="name" placeholder="Nombre de la mascota" onChange={handleChange} />
                             </div>
                             <div className="form-row">
                                 <div className="form-group col-md-4">
                                     <label for="petType">Tipo de mascota</label>
-                                    <input type="text" className="form-control" name="petType" placeholder="Perro, gato, loro..." />
+                                    <input type="text" className="form-control" name="petType" placeholder="Perro, gato, loro..." onChange={handleChange} />
                                 </div>
                                 <div className="form-group col-md-4">
                                     <label for="petBreed">Raza</label>
-                                    <input type="text" className="form-control" name="petBreed" />
+                                    <input type="text" className="form-control" name="petBreed" onChange={handleChange} />
                                 </div>
                                 <div className="form-group col-md-4">
                                     <label for="dateBirth">Fecha de nacimiento</label>
-                                    <input type="text" className="form-control" name="dateBirth" placeholder="DD/MM/AAAA" />
+                                    <input type="text" className="form-control" name="dateBirth" placeholder="DD/MM/AAAA" onChange={handleChange} />
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label for="ownerName">Nombre del propietario</label>
-                                <input type="text" className="form-control" name="ownerName" />
+                                <input type="text" className="form-control" name="ownerName" onChange={handleChange} />
                             </div>
                             <div className="form-row">
                                 <div className="form-group col-md-6">
                                     <label for="ownerEmail">Email</label>
-                                    <input type="text" className="form-control" name="ownerEmail" placeholder="pet@example.com" />
+                                    <input type="text" className="form-control" name="ownerEmail" placeholder="pet@example.com" onChange={handleChange} />
                                 </div>
                                 <div className="form-group col-md-4">
                                     <label for="ownerAddress">Dirección</label>
-                                    <input type="text" className="form-control" name="ownerAddress" />
+                                    <input type="text" className="form-control" name="ownerAddress" onChange={handleChange} />
                                 </div>
                                 <div className="form-group col-md-2">
                                     <label for="ownerPhone">Teléfono</label>
-                                    <input type="text" className="form-control" id="ownerPhone" placeholder="Celular o fijo" />
+                                    <input type="text" className="form-control" name="ownerPhone" placeholder="Celular o fijo" onChange={handleChange} />
                                 </div>
                             </div>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" className="btn btn-primary">Guardar</button>
+                            <button type="button" className="btn btn-success" onClick={() => addRequest()}>Guardar</button>
                         </div>
                     </div>
                 </div>
