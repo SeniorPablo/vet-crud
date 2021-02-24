@@ -39,9 +39,11 @@ function MainForm() {
             ...petSelected,
             [name]: value
         })
+        fieldValidation()
     }
 
-    const addRequest = async () => {
+    const addRequest = async (e) => {
+        e.preventDefault()
         delete petSelected.id
         const result = await addPet("patients", petSelected)
 
@@ -61,7 +63,7 @@ function MainForm() {
 
             setPets([...pets, newPet])
             toggleAddModal()
-            cleanFields()
+            cleanData()
         }
     }
 
@@ -82,8 +84,28 @@ function MainForm() {
         (caseType === "Update") ? toggleUpdateModal() : toggleDeleteModal();
     }
 
-    const cleanFields = () => {
-        $('[type="text"]').val('')
+    const cleanData = () => {
+        const aux = {
+            id: '',
+            name: '',
+            petType: '',
+            petBreed: '',
+            dateBirth: '',
+            ownerName: '',
+            ownerPhone: '',
+            ownerAddress: '',
+            ownerEmail: ''
+        }
+        setPetSelected(aux)
+        $('input').val('')
+        $('#add_button').prop('disabled', true)
+    }
+
+    const fieldValidation = () => {
+        $('input').each(function () {
+            let is_empty = $(this).prop('value') === ''
+            $('#add_button').prop('disabled', is_empty)
+        })
     }
 
     return (
@@ -149,54 +171,56 @@ function MainForm() {
             <div className="modal fade" id="add_modal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                     <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Agrega una mascota</h5>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div className="modal-body">
-                            <div className="form-group">
-                                <label for="name">Nombre</label>
-                                <input type="text" className="form-control" name="name" placeholder="Nombre de la mascota" onChange={handleChange} />
+                        <form onSubmit={addRequest}>
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="exampleModalLabel">Agrega una mascota</h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
-                            <div className="form-row">
-                                <div className="form-group col-md-4">
-                                    <label for="petType">Tipo de mascota</label>
-                                    <input type="text" className="form-control" name="petType" placeholder="Perro, gato, loro..." onChange={handleChange} />
+                            <div className="modal-body">
+                                <div className="form-group">
+                                    <label for="name">Nombre</label>
+                                    <input type="text" className="form-control" name="name" placeholder="Nombre de la mascota" onChange={handleChange} required />
                                 </div>
-                                <div className="form-group col-md-4">
-                                    <label for="petBreed">Raza</label>
-                                    <input type="text" className="form-control" name="petBreed" onChange={handleChange} />
+                                <div className="form-row">
+                                    <div className="form-group col-md-4">
+                                        <label for="petType">Tipo de mascota</label>
+                                        <input type="text" className="form-control" name="petType" placeholder="Perro, gato, loro..." onChange={handleChange} required />
+                                    </div>
+                                    <div className="form-group col-md-4">
+                                        <label for="petBreed">Raza</label>
+                                        <input type="text" className="form-control" name="petBreed" onChange={handleChange} />
+                                    </div>
+                                    <div className="form-group col-md-4">
+                                        <label for="dateBirth">Fecha de nacimiento</label>
+                                        <input type="date" className="form-control" name="dateBirth" placeholder="DD/MM/AAAA" onChange={handleChange} required />
+                                    </div>
                                 </div>
-                                <div className="form-group col-md-4">
-                                    <label for="dateBirth">Fecha de nacimiento</label>
-                                    <input type="text" className="form-control" name="dateBirth" placeholder="DD/MM/AAAA" onChange={handleChange} />
+                                <div className="form-group">
+                                    <label for="ownerName">Nombre del propietario</label>
+                                    <input type="text" className="form-control" name="ownerName" onChange={handleChange} required />
+                                </div>
+                                <div className="form-row">
+                                    <div className="form-group col-md-5">
+                                        <label for="ownerEmail">Email</label>
+                                        <input type="email" className="form-control" name="ownerEmail" placeholder="pet@example.com" onChange={handleChange} required />
+                                    </div>
+                                    <div className="form-group col-md-4">
+                                        <label for="ownerAddress">Dirección</label>
+                                        <input type="address" className="form-control" name="ownerAddress" onChange={handleChange} required />
+                                    </div>
+                                    <div className="form-group col-md-3">
+                                        <label for="ownerPhone">Teléfono</label>
+                                        <input type="number" className="form-control" name="ownerPhone" placeholder="Celular o fijo" onChange={handleChange} required />
+                                    </div>
                                 </div>
                             </div>
-                            <div className="form-group">
-                                <label for="ownerName">Nombre del propietario</label>
-                                <input type="text" className="form-control" name="ownerName" onChange={handleChange} />
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <button type="button" className="btn btn-success" type="submit" id="add_button" disabled>Guardar</button>
                             </div>
-                            <div className="form-row">
-                                <div className="form-group col-md-6">
-                                    <label for="ownerEmail">Email</label>
-                                    <input type="text" className="form-control" name="ownerEmail" placeholder="pet@example.com" onChange={handleChange} />
-                                </div>
-                                <div className="form-group col-md-4">
-                                    <label for="ownerAddress">Dirección</label>
-                                    <input type="text" className="form-control" name="ownerAddress" onChange={handleChange} />
-                                </div>
-                                <div className="form-group col-md-2">
-                                    <label for="ownerPhone">Teléfono</label>
-                                    <input type="text" className="form-control" name="ownerPhone" placeholder="Celular o fijo" onChange={handleChange} />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" className="btn btn-success" onClick={() => addRequest()}>Guardar</button>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
