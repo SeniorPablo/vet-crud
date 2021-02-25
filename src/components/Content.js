@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
-import MainForm from './MainForm'
 import Sidebar from './Sidebar'
+import Main from './Main'
 import '../styles/content.css'
 
 function Content() {
@@ -11,7 +11,7 @@ function Content() {
                     <Sidebar />
                 </div>
                 <div className="col-xs-10 col-md-10 remove-space content-grid">
-                    <MainForm />
+                    <Main />
                 </div>
             </div>
         </Fragment>

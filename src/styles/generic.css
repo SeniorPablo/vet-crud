@@ -12,3 +12,9 @@ body {
   padding: 0 !important;
   margin: 0 !important;
 }
+
+.btn.focus,
+.btn:focus {
+  box-shadow: none !important;
+  outline: none !important;
+}

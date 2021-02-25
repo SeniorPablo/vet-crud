@@ -1,4 +1,5 @@
 import { Fragment } from 'react'
+import { Link } from 'react-router-dom'
 import '../styles/sidebar.css'
 
 function Sidebar() {
@@ -7,8 +8,8 @@ function Sidebar() {
             <div className="container sidebar-container">
                 <div className="row text-center">
                     <div className="col-xs-12 col-md-12 sidebar-col-container">
-                        <a href="#" className="sidebar-link">Inicio</a>
-                        <a href="#" className="sidebar-link">Mascotas</a>
+                        <Link to="/" className="sidebar-link">Inicio</Link>
+                        <Link to="/main-form" className="sidebar-link">Mascotas</Link>
                     </div>
                 </div>
             </div>

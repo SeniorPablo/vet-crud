@@ -9,3 +9,17 @@
 .add-icon {
   color: #2a6478;
 }
+
+th {
+  vertical-align: middle !important;
+}
+
+.bg-thead {
+  background-color: #2a6478;
+  color: #ffffff;
+}
+
+.table td,
+.table th {
+  vertical-align: middle !important;
+}
