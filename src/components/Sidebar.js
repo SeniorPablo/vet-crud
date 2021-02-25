@@ -9,7 +9,7 @@ function Sidebar() {
                 <div className="row text-center">
                     <div className="col-xs-12 col-md-12 sidebar-col-container">
                         <Link to="/" className="sidebar-link">Inicio</Link>
-                        <Link to="/main-form" className="sidebar-link">Mascotas</Link>
+                        <Link to="/main-form" className="sidebar-link">Lista de mascotas</Link>
                     </div>
                 </div>
             </div>

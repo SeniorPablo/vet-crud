@@ -22,7 +22,7 @@ function Footer() {
                     </div>
                 </div>
                 <div className="card-footer text-muted text-center">
-                    Copyright © Juan Pablo González David - Programación Distribuida
+                    Copyright © Juan Pablo González David - Programación Distribuida 2021-1
                 </div>
             </div>
         </Fragment>

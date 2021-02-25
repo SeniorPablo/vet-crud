@@ -135,7 +135,7 @@ function MainForm() {
     return (
         <Fragment>
             <div className="jumbotron text-center">
-                <h1>LISTA DE MASCOTAS</h1>
+                <h1>NUESTROS PACIENTES</h1>
             </div>
             <ul className="nav justify-content-end">
                 <li className="nav-item">

@@ -7,6 +7,7 @@ function Home() {
         <Fragment>
             <div className="context">
                 <img src={Wolf} className="wolf-image" />
+                <h1 className="text-dark">¡Bienvenido a mi veterinaria!</h1>
             </div>
             <div className="area" >
                 <ul className="circles">
